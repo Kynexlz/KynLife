@@ -1,0 +1,156 @@
+--// KynLife UI Framework
+
+local KynLife = {}
+
+local player = game.Players.LocalPlayer
+
+-- GUI
+local gui = Instance.new("ScreenGui")
+gui.Name = "KynLife"
+gui.ResetOnSpawn = false
+gui.Parent = player:WaitForChild("PlayerGui")
+
+local main = Instance.new("Frame", gui)
+main.Size = UDim2.new(0, 300, 0, 260)
+main.Position = UDim2.new(0.35, 0, 0.3, 0)
+main.BackgroundColor3 = Color3.fromRGB(10,10,10)
+main.Active = true
+main.Draggable = true
+
+Instance.new("UICorner", main).CornerRadius = UDim.new(0,10)
+
+local stroke = Instance.new("UIStroke", main)
+stroke.Color = Color3.fromRGB(255,255,255)
+
+-- Title
+local title = Instance.new("TextLabel", main)
+title.Size = UDim2.new(1,0,0,40)
+title.Text = "Kynexlz"
+title.BackgroundTransparency = 1
+title.TextColor3 = Color3.fromRGB(255,255,255)
+title.Font = Enum.Font.GothamBold
+title.TextSize = 18
+
+-- Container
+local container = Instance.new("Frame", main)
+container.Size = UDim2.new(1,0,1,-40)
+container.Position = UDim2.new(0,0,0,40)
+container.BackgroundTransparency = 1
+
+local layout = Instance.new("UIListLayout", container)
+layout.Padding = UDim.new(0,6)
+
+-- API
+
+function KynLife:SetTitle(text)
+    title.Text = text
+end
+
+function KynLife:Button(text, callback)
+    local btn = Instance.new("TextButton", container)
+    btn.Size = UDim2.new(0.9,0,0,35)
+    btn.BackgroundColor3 = Color3.fromRGB(20,20,20)
+    btn.TextColor3 = Color3.fromRGB(255,255,255)
+    btn.Font = Enum.Font.Gotham
+    btn.Text = text
+
+    Instance.new("UICorner", btn)
+
+    btn.MouseButton1Click:Connect(function()
+        callback()
+    end)
+end
+
+function KynLife:Toggle(text, callback)
+    local state = false
+
+    local btn = Instance.new("TextButton", container)
+    btn.Size = UDim2.new(0.9,0,0,35)
+    btn.BackgroundColor3 = Color3.fromRGB(20,20,20)
+    btn.TextColor3 = Color3.fromRGB(255,255,255)
+    btn.Font = Enum.Font.Gotham
+    btn.Text = text .. ": OFF"
+
+    Instance.new("UICorner", btn)
+
+    btn.MouseButton1Click:Connect(function()
+        state = not state
+        btn.Text = text .. ": " .. (state and "ON" or "OFF")
+        callback(state)
+    end)
+end
+
+function KynLife:Slider(text, min, max, callback)
+    local value = min
+
+    local frame = Instance.new("Frame", container)
+    frame.Size = UDim2.new(0.9,0,0,45)
+    frame.BackgroundColor3 = Color3.fromRGB(20,20,20)
+
+    Instance.new("UICorner", frame)
+
+    local label = Instance.new("TextLabel", frame)
+    label.Size = UDim2.new(1,0,0.4,0)
+    label.Text = text .. ": " .. value
+    label.BackgroundTransparency = 1
+    label.TextColor3 = Color3.fromRGB(255,255,255)
+
+    local bar = Instance.new("Frame", frame)
+    bar.Size = UDim2.new(1,-10,0,6)
+    bar.Position = UDim2.new(0,5,0.6,0)
+    bar.BackgroundColor3 = Color3.fromRGB(40,40,40)
+
+    local fill = Instance.new("Frame", bar)
+    fill.Size = UDim2.new(0,0,1,0)
+    fill.BackgroundColor3 = Color3.fromRGB(255,255,255)
+
+    local dragging = false
+
+    bar.InputBegan:Connect(function(input)
+        if input.UserInputType == Enum.UserInputType.MouseButton1 then
+            dragging = true
+        end
+    end)
+
+    bar.InputEnded:Connect(function()
+        dragging = false
+    end)
+
+    game:GetService("UserInputService").InputChanged:Connect(function(input)
+        if dragging and input.UserInputType == Enum.UserInputType.MouseMovement then
+            local percent = math.clamp(
+                (input.Position.X - bar.AbsolutePosition.X) / bar.AbsoluteSize.X,
+                0,1
+            )
+
+            fill.Size = UDim2.new(percent,0,1,0)
+            value = math.floor(min + (max-min)*percent)
+
+            label.Text = text .. ": " .. value
+            callback(value)
+        end
+    end)
+end
+
+-- Popup system (every 5 mins)
+task.spawn(function()
+    while true do
+        task.wait(300)
+
+        local popup = Instance.new("TextLabel", gui)
+        popup.Size = UDim2.new(0,200,0,50)
+        popup.Position = UDim2.new(0.5,-100,0.1,0)
+        popup.BackgroundColor3 = Color3.fromRGB(10,10,10)
+        popup.TextColor3 = Color3.fromRGB(255,255,255)
+        popup.Text = "Made with KynLife"
+        popup.Font = Enum.Font.GothamBold
+
+        Instance.new("UICorner", popup)
+
+        task.delay(5, function()
+            popup:Destroy()
+        end)
+    end
+end)
+
+return KynLife
