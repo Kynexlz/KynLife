@@ -1,147 +1,199 @@
---// KynLife UI Framework
+--// KynLife v2
 
 local KynLife = {}
 
 local player = game.Players.LocalPlayer
+local UIS = game:GetService("UserInputService")
+
+-- Theme
+local Theme = {
+    Background = Color3.fromRGB(10,10,10),
+    Accent = Color3.fromRGB(255,255,255)
+}
+
+function KynLife:SetTheme(bg, accent)
+    Theme.Background = bg or Theme.Background
+    Theme.Accent = accent or Theme.Accent
+end
 
 -- GUI
-local gui = Instance.new("ScreenGui")
+local gui = Instance.new("ScreenGui", player:WaitForChild("PlayerGui"))
 gui.Name = "KynLife"
 gui.ResetOnSpawn = false
-gui.Parent = player:WaitForChild("PlayerGui")
 
 local main = Instance.new("Frame", gui)
-main.Size = UDim2.new(0, 300, 0, 260)
+main.Size = UDim2.new(0, 340, 0, 300)
 main.Position = UDim2.new(0.35, 0, 0.3, 0)
-main.BackgroundColor3 = Color3.fromRGB(10,10,10)
+main.BackgroundColor3 = Theme.Background
 main.Active = true
 main.Draggable = true
 
-Instance.new("UICorner", main).CornerRadius = UDim.new(0,10)
+Instance.new("UICorner", main).CornerRadius = UDim.new(0,12)
 
 local stroke = Instance.new("UIStroke", main)
-stroke.Color = Color3.fromRGB(255,255,255)
+stroke.Color = Theme.Accent
 
 -- Title
 local title = Instance.new("TextLabel", main)
 title.Size = UDim2.new(1,0,0,40)
 title.Text = "Kynexlz"
 title.BackgroundTransparency = 1
-title.TextColor3 = Color3.fromRGB(255,255,255)
+title.TextColor3 = Theme.Accent
 title.Font = Enum.Font.GothamBold
 title.TextSize = 18
 
--- Container
-local container = Instance.new("Frame", main)
-container.Size = UDim2.new(1,0,1,-40)
-container.Position = UDim2.new(0,0,0,40)
-container.BackgroundTransparency = 1
-
-local layout = Instance.new("UIListLayout", container)
-layout.Padding = UDim.new(0,6)
-
--- API
-
-function KynLife:SetTitle(text)
-    title.Text = text
+function KynLife:SetTitle(t)
+    title.Text = t
 end
 
-function KynLife:Button(text, callback)
-    local btn = Instance.new("TextButton", container)
-    btn.Size = UDim2.new(0.9,0,0,35)
-    btn.BackgroundColor3 = Color3.fromRGB(20,20,20)
-    btn.TextColor3 = Color3.fromRGB(255,255,255)
-    btn.Font = Enum.Font.Gotham
-    btn.Text = text
+-- Tabs
+local tabButtons = Instance.new("Frame", main)
+tabButtons.Size = UDim2.new(1,0,0,35)
+tabButtons.Position = UDim2.new(0,0,0,40)
+tabButtons.BackgroundTransparency = 1
 
+local tabLayout = Instance.new("UIListLayout", tabButtons)
+tabLayout.FillDirection = Enum.FillDirection.Horizontal
+tabLayout.Padding = UDim.new(0,5)
+
+local pages = Instance.new("Frame", main)
+pages.Size = UDim2.new(1,0,1,-75)
+pages.Position = UDim2.new(0,0,0,75)
+pages.BackgroundTransparency = 1
+
+local currentTab = nil
+
+function KynLife:CreateTab(name)
+    -- Button
+    local btn = Instance.new("TextButton", tabButtons)
+    btn.Size = UDim2.new(0,90,1,0)
+    btn.Text = name
+    btn.BackgroundColor3 = Color3.fromRGB(20,20,20)
+    btn.TextColor3 = Theme.Accent
+    btn.Font = Enum.Font.Gotham
     Instance.new("UICorner", btn)
 
-    btn.MouseButton1Click:Connect(function()
-        callback()
-    end)
-end
+    -- Page
+    local page = Instance.new("Frame", pages)
+    page.Size = UDim2.new(1,0,1,0)
+    page.Visible = false
+    page.BackgroundTransparency = 1
 
-function KynLife:Toggle(text, callback)
-    local state = false
+    local padding = Instance.new("UIPadding", page)
+    padding.PaddingLeft = UDim.new(0,12)
+    padding.PaddingRight = UDim.new(0,12)
+    padding.PaddingTop = UDim.new(0,10)
 
-    local btn = Instance.new("TextButton", container)
-    btn.Size = UDim2.new(0.9,0,0,35)
-    btn.BackgroundColor3 = Color3.fromRGB(20,20,20)
-    btn.TextColor3 = Color3.fromRGB(255,255,255)
-    btn.Font = Enum.Font.Gotham
-    btn.Text = text .. ": OFF"
-
-    Instance.new("UICorner", btn)
+    local layout = Instance.new("UIListLayout", page)
+    layout.Padding = UDim.new(0,8)
 
     btn.MouseButton1Click:Connect(function()
-        state = not state
-        btn.Text = text .. ": " .. (state and "ON" or "OFF")
-        callback(state)
+        if currentTab then currentTab.Visible = false end
+        page.Visible = true
+        currentTab = page
     end)
+
+    if not currentTab then
+        currentTab = page
+        page.Visible = true
+    end
+
+    -- Elements API
+    local Tab = {}
+
+    function Tab:Button(text, callback)
+        local b = Instance.new("TextButton", page)
+        b.Size = UDim2.new(1,0,0,35)
+        b.BackgroundColor3 = Color3.fromRGB(20,20,20)
+        b.TextColor3 = Theme.Accent
+        b.Text = text
+        b.Font = Enum.Font.Gotham
+        Instance.new("UICorner", b)
+
+        b.MouseButton1Click:Connect(callback)
+    end
+
+    function Tab:Toggle(text, callback)
+        local state = false
+
+        local t = Instance.new("TextButton", page)
+        t.Size = UDim2.new(1,0,0,35)
+        t.BackgroundColor3 = Color3.fromRGB(20,20,20)
+        t.TextColor3 = Theme.Accent
+        t.Text = text .. ": OFF"
+        t.Font = Enum.Font.Gotham
+        Instance.new("UICorner", t)
+
+        t.MouseButton1Click:Connect(function()
+            state = not state
+            t.Text = text .. ": " .. (state and "ON" or "OFF")
+            callback(state)
+        end)
+    end
+
+    function Tab:Slider(text, min, max, callback)
+        local value = min
+
+        local frame = Instance.new("Frame", page)
+        frame.Size = UDim2.new(1,0,0,45)
+        frame.BackgroundColor3 = Color3.fromRGB(20,20,20)
+        Instance.new("UICorner", frame)
+
+        local label = Instance.new("TextLabel", frame)
+        label.Size = UDim2.new(1,0,0.4,0)
+        label.Text = text .. ": " .. value
+        label.BackgroundTransparency = 1
+        label.TextColor3 = Theme.Accent
+
+        local bar = Instance.new("Frame", frame)
+        bar.Size = UDim2.new(1,-10,0,6)
+        bar.Position = UDim2.new(0,5,0.6,0)
+        bar.BackgroundColor3 = Color3.fromRGB(40,40,40)
+
+        local fill = Instance.new("Frame", bar)
+        fill.Size = UDim2.new(0,0,1,0)
+        fill.BackgroundColor3 = Theme.Accent
+
+        local dragging = false
+
+        bar.InputBegan:Connect(function(i)
+            if i.UserInputType == Enum.UserInputType.MouseButton1 then
+                dragging = true
+            end
+        end)
+
+        bar.InputEnded:Connect(function()
+            dragging = false
+        end)
+
+        UIS.InputChanged:Connect(function(i)
+            if dragging and i.UserInputType == Enum.UserInputType.MouseMovement then
+                local percent = math.clamp(
+                    (i.Position.X - bar.AbsolutePosition.X) / bar.AbsoluteSize.X,
+                    0,1
+                )
+
+                fill.Size = UDim2.new(percent,0,1,0)
+                value = math.floor(min + (max-min)*percent)
+                label.Text = text .. ": " .. value
+                callback(value)
+            end
+        end)
+    end
+
+    return Tab
 end
 
-function KynLife:Slider(text, min, max, callback)
-    local value = min
-
-    local frame = Instance.new("Frame", container)
-    frame.Size = UDim2.new(0.9,0,0,45)
-    frame.BackgroundColor3 = Color3.fromRGB(20,20,20)
-
-    Instance.new("UICorner", frame)
-
-    local label = Instance.new("TextLabel", frame)
-    label.Size = UDim2.new(1,0,0.4,0)
-    label.Text = text .. ": " .. value
-    label.BackgroundTransparency = 1
-    label.TextColor3 = Color3.fromRGB(255,255,255)
-
-    local bar = Instance.new("Frame", frame)
-    bar.Size = UDim2.new(1,-10,0,6)
-    bar.Position = UDim2.new(0,5,0.6,0)
-    bar.BackgroundColor3 = Color3.fromRGB(40,40,40)
-
-    local fill = Instance.new("Frame", bar)
-    fill.Size = UDim2.new(0,0,1,0)
-    fill.BackgroundColor3 = Color3.fromRGB(255,255,255)
-
-    local dragging = false
-
-    bar.InputBegan:Connect(function(input)
-        if input.UserInputType == Enum.UserInputType.MouseButton1 then
-            dragging = true
-        end
-    end)
-
-    bar.InputEnded:Connect(function()
-        dragging = false
-    end)
-
-    game:GetService("UserInputService").InputChanged:Connect(function(input)
-        if dragging and input.UserInputType == Enum.UserInputType.MouseMovement then
-            local percent = math.clamp(
-                (input.Position.X - bar.AbsolutePosition.X) / bar.AbsoluteSize.X,
-                0,1
-            )
-
-            fill.Size = UDim2.new(percent,0,1,0)
-            value = math.floor(min + (max-min)*percent)
-
-            label.Text = text .. ": " .. value
-            callback(value)
-        end
-    end)
-end
-
--- Popup system (every 5 mins)
+-- Popup system
 task.spawn(function()
     while true do
         task.wait(300)
 
         local popup = Instance.new("TextLabel", gui)
-        popup.Size = UDim2.new(0,200,0,50)
-        popup.Position = UDim2.new(0.5,-100,0.1,0)
-        popup.BackgroundColor3 = Color3.fromRGB(10,10,10)
-        popup.TextColor3 = Color3.fromRGB(255,255,255)
+        popup.Size = UDim2.new(0,220,0,50)
+        popup.Position = UDim2.new(0.5,-110,0.1,0)
+        popup.BackgroundColor3 = Theme.Background
+        popup.TextColor3 = Theme.Accent
         popup.Text = "Made with KynLife"
         popup.Font = Enum.Font.GothamBold
 
