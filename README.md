@@ -13,32 +13,45 @@ UI:SetTitle("Title of your library")
 
 Choose your own Colour
 ```lua
-UI:SetTheme(Color3.fromRGB(15,15,15), Color3.fromRGB(255,255,255))
+UI:SetTheme(
+    Color3.fromRGB(15,15,15), -- background
+    Color3.fromRGB(255,255,255) -- accent
+)
 ```
 
 Create a Tab
 ```lua
 local main = UI:CreateTab("Main")
+local player = UI:CreateTab("Player")
 local misc = UI:CreateTab("Misc")
 ```
 
 Create a Button
 ```lua
-UI:Button("Button Name", function()
-    print("Clicked!")
+main:Button("Button Name", function()
+    print("Button clicked")
 end)
 ```
 
 Create a Toggle
 ```lua
-UI:Toggle("Toggle Name", function(v)
-    print("Toggle:", v)
+main:Toggle("Toggle Name", function(state)
+    print(state) -- true / false
 end)
 ```
 
 Create a Slider
 ```lua
-UI:Slider("Speed", 1, 100, function(v)
-    print("Speed:", v)
+main:Slider("Slider Name", MIN, MAX, function(value)
+    print(value)
 end)
 ```
+
+
+
+
+
+
+
+
+
