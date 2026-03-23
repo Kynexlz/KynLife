@@ -6,6 +6,11 @@ Library
 local UI = loadstring(game:HttpGet("https://raw.githubusercontent.com/Kynexlz/KynLife/refs/heads/main/KynLifeSource"))()
 ```
 
+Choose your own Colour
+```lua
+UI:SetTheme(Color3.fromRGB(15,15,15), Color3.fromRGB(255,255,255))
+```
+
 Setup a Title
 ```lua
 UI:SetTitle("Title of your library")
