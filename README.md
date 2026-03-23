@@ -6,14 +6,20 @@ Library
 local UI = loadstring(game:HttpGet("https://raw.githubusercontent.com/Kynexlz/KynLife/refs/heads/main/KynLifeSource"))()
 ```
 
+Setup a Title
+```lua
+UI:SetTitle("Title of your library")
+```
+
 Choose your own Colour
 ```lua
 UI:SetTheme(Color3.fromRGB(15,15,15), Color3.fromRGB(255,255,255))
 ```
 
-Setup a Title
+Create a Tab
 ```lua
-UI:SetTitle("Title of your library")
+local main = UI:CreateTab("Main")
+local misc = UI:CreateTab("Misc")
 ```
 
 Create a Button
