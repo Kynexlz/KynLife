@@ -126,7 +126,7 @@ function Library:CreateWindow(windowname,windowinfo)
     YepTitle.Position = UDim2.new(1.57894742, 0, -0.318181813, 0)
     YepTitle.Size = UDim2.new(0, 128, 0, 33)
     YepTitle.Font = Enum.Font.GothamSemibold
-    YepTitle.Text = windowinfo or "UI Made by Bytes#0001"
+    YepTitle.Text = windowinfo or "Made by Kynexlz"
     YepTitle.TextColor3 = Color3.fromRGB(255, 255, 255)
     YepTitle.TextSize = 9.000
     YepTitle.TextTransparency = 1.000
