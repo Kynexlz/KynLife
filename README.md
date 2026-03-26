@@ -3,55 +3,63 @@ KynLife UI Hub
 
 Library
 ```lua
-local UI = loadstring(game:HttpGet("https://raw.githubusercontent.com/Kynexlz/KynLife/refs/heads/main/Source"))()
+local Library = loadstring(game:HttpGet("https://raw.githubusercontent.com/Kynexlz/KynLife/refs/heads/main/Source"))()
 ```
 
-Setup a Title
+Create a Title
 ```lua
-UI:SetTitle("Title of your library")
-```
+local Window = Library:CreateWindow("Kynexlz Hub", "Made by you")
 
-Choose your own Colour
-```lua
-UI:SetTheme(
-    Color3.fromRGB(15,15,15), -- background
-    Color3.fromRGB(255,255,255) -- accent
-)
+"Kynexlz Hub" = Title
+"Made by You" = small hover text (optional)
 ```
 
 Create a Tab
 ```lua
-local main = UI:CreateTab("Main")
-local player = UI:CreateTab("Player")
-local misc = UI:CreateTab("Misc")
+local MainPage = Window:addPage("Main", 4, true, 6)
+
+"Main" = Tab name
+"4" = scroll size
+"true/false" = default open tab
+"6" = spacing between elements
+```
+
+Create a Label
+```lua
+MainPage:addLabel("Label")
 ```
 
 Create a Button
 ```lua
-main:Button("Button Name", function()
+MainPage:addButton("Button", function()
     print("Button clicked")
 end)
 ```
 
 Create a Toggle
 ```lua
-main:Toggle("Toggle Name", function(state)
-    print(state) -- true / false
+MainPage:addToggle("Toggle", function(state)
+    print("Toggle:", state)
 end)
 ```
 
 Create a Slider
 ```lua
-main:Slider("Slider Name", MIN, MAX, function(value)
-    print(value)
+MainPage:addSlider("Slider", 0, 100, function(value)
+    print("Speed:", value)
 end)
 ```
 
+Create a Textbox
+```lua
+MainPage:addTextBox("Textbox", "Type...", function(text)
+    print("User typed:", text)
+end)
+```
 
-
-
-
-
-
-
-
+Create a Dropdown
+```lua
+MainPage:addDropdown("Dropdown", {"Garden","Movie","House"}, 4, function(option)
+    print("Selected:", option)
+end)
+```
