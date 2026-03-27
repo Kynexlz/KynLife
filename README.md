@@ -63,7 +63,7 @@ end)
 
 Create a Dropdown
 ```lua
-MainPage:addDropdown("Dropdown", {"Garden","Movie","House"}, 4, function(option)
+MainPage:addDropdown("Dropdown", {"Option 1","Option 2","Option 3"}, 4, function(option)
     print("Selected:", option)
 end)
 ```
