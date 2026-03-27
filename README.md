@@ -1,5 +1,5 @@
-# KynLife
-KynLife UI Hub
+# Kynexlz Hub
+Kynexlz UI Hub
 
 Library
 ```lua
