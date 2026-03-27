@@ -1,0 +1,40 @@
+local Library = loadstring(game:HttpGet("https://raw.githubusercontent.com/Kynexlz/KynLife/refs/heads/main/Source"))()
+
+local Window = Library:CreateWindow("Kynexlz Hub")
+
+local MainPage = Window:addPage("Main", 4, true, 6)
+local SettingsPage = Window:addPage("Settings", 4, false, 6)
+
+MainPage:addLabel("Label")
+
+MainPage:addButton("Button", function()
+    print("Button clicked")
+end)
+
+MainPage:addToggle("Toggle", function(state)
+    print("Toggle:", state)
+end)
+
+MainPage:addSlider("Slider", 0, 100, function(value)
+    print("Speed:", value)
+end)
+
+MainPage:addTextBox("Enter Name", "Type...", function(text)
+    print("User typed:", text)
+end)
+
+MainPage:addDropdown("Select Mode", {"Easy","Medium","Hard"}, 4, function(option)
+    print("Selected:", option)
+end)
+
+
+
+
+
+
+
+
+
+
+
+
