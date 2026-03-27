@@ -3,7 +3,7 @@ Kynexlz UI Hub
 
 Library
 ```lua
-local Library = loadstring(game:HttpGet("https://raw.githubusercontent.com/Kynexlz/KynLife/refs/heads/main/Source"))()
+local Library = loadstring(game:HttpGet("https://raw.githubusercontent.com/Kynexlz/KynLife/main/Source"))()
 ```
 
 Create a Title
