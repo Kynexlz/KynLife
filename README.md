@@ -10,18 +10,22 @@ Create a Title
 ```lua
 local Window = Library:CreateWindow("Kynexlz Hub", "Made by you")
 
+--[[
 "Kynexlz Hub" = Title
 "Made by You" = small hover text (optional)
+]]
 ```
 
 Create a Tab
 ```lua
 local MainPage = Window:addPage("Main", 4, true, 6)
 
+--[[
 "Main" = Tab name
 "4" = scroll size
 "true/false" = default open tab
 "6" = spacing between elements
+]]
 ```
 
 Create a Label
