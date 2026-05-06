@@ -66,7 +66,7 @@ end)
 
 --[[
 "Slider" = Slider name
-0, 100, = Speed amount
+"0, 100," = Speed amount
 ]]
 ```
 
