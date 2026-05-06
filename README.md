@@ -1,5 +1,4 @@
 # Kynexlz Hub
-Kynexlz UI Hub
 
 Library
 ```lua
@@ -31,6 +30,10 @@ local MainPage = Window:addPage("Main", 4, true, 6)
 Create a Label
 ```lua
 MainPage:addLabel("Label")
+
+--[[
+"Label" = Label name
+]]
 ```
 
 Create a Button
@@ -38,6 +41,10 @@ Create a Button
 MainPage:addButton("Button", function()
     print("Button clicked")
 end)
+
+--[[
+"Button" = Button name
+]]
 ```
 
 Create a Toggle
@@ -45,6 +52,10 @@ Create a Toggle
 MainPage:addToggle("Toggle", function(state)
     print("Toggle:", state)
 end)
+
+--[[
+"Toggle" = Toggle name
+]]
 ```
 
 Create a Slider
@@ -52,6 +63,11 @@ Create a Slider
 MainPage:addSlider("Slider", 0, 100, function(value)
     print("Speed:", value)
 end)
+
+--[[
+"Slider" = Slider name
+0, 100, = Speed amount
+]]
 ```
 
 Create a Textbox
@@ -59,6 +75,10 @@ Create a Textbox
 MainPage:addTextBox("Textbox", "Type...", function(text)
     print("User typed:", text)
 end)
+
+--[[
+"Textbox" = Textbox name
+]]
 ```
 
 Create a Dropdown
@@ -66,4 +86,9 @@ Create a Dropdown
 MainPage:addDropdown("Dropdown", {"Option 1","Option 2","Option 3"}, 4, function(option)
     print("Selected:", option)
 end)
+
+--[[
+"Dropdown" = Dropdown name
+"Options" = Name it to whatever you want
+]]
 ```
