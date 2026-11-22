@@ -119,3 +119,21 @@ WeaponsPage:addToggle("Katana", function(state)
         end)
     end
 end)
+
+-- Weapons: Bat
+local BatEnabled = false
+
+WeaponsPage:addToggle("Bat", function(state)
+    BatEnabled = state
+
+    if state then
+        task.spawn(function()
+            local BatRemote = game:GetService("ReplicatedStorage").Bat
+
+            while BatEnabled do
+                BatRemote:FireServer(2)
+                task.wait()
+            end
+        end)
+    end
+end)
