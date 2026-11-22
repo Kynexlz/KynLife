@@ -4,6 +4,7 @@ local Window = Library:CreateWindow("Kynexlz Hub")
 
 local MainPage = Window:addPage("Main", 4, true, 6)
 local SettingsPage = Window:addPage("Settings", 4, false, 6)
+local FarmingPage = Window:addPage("Farming", 4, false, 6)
 
 MainPage:addLabel("Label")
 
@@ -27,14 +28,26 @@ MainPage:addDropdown("Select Mode", {"Easy","Medium","Hard"}, 4, function(option
     print("Selected:", option)
 end)
 
+-- Farming
+local BenchPressEnabled = false
 
+FarmingPage:addToggle("BenchPress", function(state)
+    BenchPressEnabled = state
 
+    if state then
+        task.spawn(function()
+            while BenchPressEnabled do
+                for i = 1, 100 do
+                    if not BenchPressEnabled then
+                        break
+                    end
 
-
-
-
-
-
-
-
-
+                    local Remotes = game:GetService("ReplicatedStorage").Remotes
+                    Remotes.Bench:FireServer()
+                    Remotes.PushUp:FireServer()
+                    task.wait()
+                end
+            end
+        end)
+    end
+end)
