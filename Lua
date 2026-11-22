@@ -2,33 +2,8 @@ local Library = loadstring(game:HttpGet("https://raw.githubusercontent.com/Kynex
 
 local Window = Library:CreateWindow("Kynexlz Hub")
 
-local MainPage = Window:addPage("Main", 4, true, 6)
-local SettingsPage = Window:addPage("Settings", 4, false, 6)
 local FarmingPage = Window:addPage("Farming", 4, false, 6)
 
-MainPage:addLabel("Label")
-
-MainPage:addButton("Button", function()
-    print("Button clicked")
-end)
-
-MainPage:addToggle("Toggle", function(state)
-    print("Toggle:", state)
-end)
-
-MainPage:addSlider("Slider", 0, 100, function(value)
-    print("Speed:", value)
-end)
-
-MainPage:addTextBox("Enter Name", "Type...", function(text)
-    print("User typed:", text)
-end)
-
-MainPage:addDropdown("Select Mode", {"Easy","Medium","Hard"}, 4, function(option)
-    print("Selected:", option)
-end)
-
--- Farming: BenchPress
 local BenchPressEnabled = false
 
 FarmingPage:addToggle("BenchPress", function(state)
@@ -52,7 +27,6 @@ FarmingPage:addToggle("BenchPress", function(state)
     end
 end)
 
--- Farming: Dumbbell
 local DumbbellEnabled = false
 
 FarmingPage:addToggle("Dumbbell", function(state)
@@ -70,7 +44,6 @@ FarmingPage:addToggle("Dumbbell", function(state)
     end
 end)
 
--- Farming: PushUp
 local PushUpEnabled = false
 
 FarmingPage:addToggle("PushUp", function(state)
@@ -88,7 +61,6 @@ FarmingPage:addToggle("PushUp", function(state)
     end
 end)
 
--- Farming: SitUp
 local SitUpEnabled = false
 
 FarmingPage:addToggle("SitUp", function(state)
