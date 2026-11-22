@@ -86,7 +86,7 @@ FarmingPage:addToggle("Punching Bags", function(state)
 
     if state then
         task.spawn(function()
-            local JumpKickRemote = game:GetService("ReplicatedStorage").Remotes.JumpKick
+            local Remotes = game:GetService("ReplicatedStorage").Remotes
 
             while PunchingBagsEnabled do
                 for i = 1, 1000 do
@@ -94,7 +94,8 @@ FarmingPage:addToggle("Punching Bags", function(state)
                         break
                     end
 
-                    JumpKickRemote:FireServer(1)
+                    Remotes.JumpKick:FireServer(1)
+                    Remotes.DoubleReg:FireServer()
                     task.wait()
                 end
             end
