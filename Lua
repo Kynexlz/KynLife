@@ -77,3 +77,26 @@ FarmingPage:addToggle("SitUp", function(state)
         end)
     end
 end)
+
+local PunchingBagsEnabled = false
+
+FarmingPage:addToggle("Punching Bags", function(state)
+    PunchingBagsEnabled = state
+
+    if state then
+        task.spawn(function()
+            local JumpKickRemote = game:GetService("ReplicatedStorage").Remotes.JumpKick
+
+            while PunchingBagsEnabled do
+                for i = 1, 1000 do
+                    if not PunchingBagsEnabled then
+                        break
+                    end
+
+                    JumpKickRemote:FireServer(1)
+                    task.wait()
+                end
+            end
+        end)
+    end
+end)
