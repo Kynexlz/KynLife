@@ -69,3 +69,21 @@ FarmingPage:addToggle("Dumbbell", function(state)
         end)
     end
 end)
+
+-- Farming: PushUp
+local PushUpEnabled = false
+
+FarmingPage:addToggle("PushUp", function(state)
+    PushUpEnabled = state
+
+    if state then
+        task.spawn(function()
+            local PushUpRemote = game:GetService("ReplicatedStorage").Remotes.PushUp
+
+            while PushUpEnabled do
+                PushUpRemote:FireServer()
+                task.wait()
+            end
+        end)
+    end
+end)
