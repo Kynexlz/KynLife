@@ -87,3 +87,21 @@ FarmingPage:addToggle("PushUp", function(state)
         end)
     end
 end)
+
+-- Farming: SitUp
+local SitUpEnabled = false
+
+FarmingPage:addToggle("SitUp", function(state)
+    SitUpEnabled = state
+
+    if state then
+        task.spawn(function()
+            local SitUpRemote = game:GetService("ReplicatedStorage").Remotes.SitUp
+
+            while SitUpEnabled do
+                SitUpRemote:FireServer()
+                task.wait()
+            end
+        end)
+    end
+end)
