@@ -28,7 +28,7 @@ MainPage:addDropdown("Select Mode", {"Easy","Medium","Hard"}, 4, function(option
     print("Selected:", option)
 end)
 
--- Farming
+-- Farming: BenchPress
 local BenchPressEnabled = false
 
 FarmingPage:addToggle("BenchPress", function(state)
@@ -47,6 +47,24 @@ FarmingPage:addToggle("BenchPress", function(state)
                     Remotes.PushUp:FireServer()
                     task.wait()
                 end
+            end
+        end)
+    end
+end)
+
+-- Farming: Dumbbell
+local DumbbellEnabled = false
+
+FarmingPage:addToggle("Dumbbell", function(state)
+    DumbbellEnabled = state
+
+    if state then
+        task.spawn(function()
+            local Remotes = game:GetService("ReplicatedStorage").Remotes
+
+            while DumbbellEnabled do
+                Remotes.Dumbell:FireServer("Rep", 1)
+                task.wait()
             end
         end)
     end
